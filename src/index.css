@@ -1,0 +1,618 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+  
+@layer base {
+  :root {
+    --background: 196 50% 97%;
+    --foreground: 220 26% 14%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 26% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 26% 14%;
+
+    --primary: 194 56% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 197 67% 33%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 196 30% 92%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 194 46% 78%;
+    --accent-foreground: 197 67% 25%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 196 30% 88%;
+    --input: 196 30% 88%;
+    --ring: 194 56% 48%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 194 56% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 194 46% 95%;
+    --sidebar-accent-foreground: 197 67% 25%;
+    --sidebar-border: 196 30% 88%;
+    --sidebar-ring: 194 56% 48%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 shadow-lg;
+  }
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  }
+  .gradient-accent {
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary) / 0.2));
+  }
+}
+
+/* ========== ANTI SCREENSHOT & SECURITY STYLES ========== */
+
+/* Prevent screenshot overlay - creates an invisible layer that disrupts screenshots */
+.screenshot-protection {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.01) 0px,
+    rgba(0, 0, 0, 0.01) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* Stronger anti-screenshot for mobile */
+@media (max-width: 768px) {
+  .screenshot-protection {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.02) 0px,
+      rgba(0, 0, 0, 0.02) 2px,
+      transparent 2px,
+      transparent 6px
+    );
+  }
+}
+
+/* Fullscreen styles */
+:-webkit-full-screen {
+  background-color: hsl(var(--background));
+  width: 100%;
+  height: 100%;
+}
+
+:-webkit-full-screen body {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+:fullscreen {
+  background-color: hsl(var(--background));
+  width: 100%;
+  height: 100%;
+}
+
+:fullscreen body {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Firefox fullscreen */
+:-moz-full-screen {
+  background-color: hsl(var(--background));
+  width: 100%;
+  height: 100%;
+}
+
+/* MS fullscreen */
+:-ms-fullscreen {
+  background-color: hsl(var(--background));
+  width: 100%;
+  height: 100%;
+}
+
+/* Disable text selection on exam */
+.exam-mode,
+.exam-mode * {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Prevent print completely */
+@media print {
+  body {
+    display: none !important;
+  }
+  
+  #root {
+    display: none !important;
+  }
+  
+  html {
+    display: none !important;
+  }
+  
+  * {
+    visibility: hidden !important;
+  }
+}
+
+/* Prevent selection on all elements during exam */
+body.exam-active {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Anti-capture for images and media */
+img, 
+video, 
+canvas,
+svg {
+  -webkit-touch-callout: none;
+  pointer-events: auto;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Disable right click on all elements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Disable image dragging */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+/* Warning animation */
+@keyframes pulse-warning {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.warning-badge {
+  animation: pulse-warning 2s ease-in-out infinite;
+}
+
+.warning-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Prevent text selection on specific elements */
+input, 
+textarea, 
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* But disable copy/paste on inputs during exam */
+body.exam-active input,
+body.exam-active textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Hide browser UI elements when in fullscreen */
+:-webkit-full-screen {
+  overflow: hidden;
+}
+
+/* Disable pull-to-refresh on mobile */
+body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent zoom on input focus on iOS */
+@media screen and (max-width: 768px) {
+  input, 
+  textarea, 
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Disable long-press menu on mobile */
+* {
+  -webkit-touch-callout: none;
+}
+
+/* Prevent selecting from touch events */
+.no-select {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Blur effect when trying to screenshot (visual deterrent) */
+@keyframes antiScreenshotFlash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.95;
+  }
+}
+
+.screenshot-detected {
+  animation: antiScreenshotFlash 0.1s ease-in-out 3;
+}
+
+/* Disable text selection on buttons */
+button,
+[role="button"],
+a {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Make sure the anti-screenshot overlay doesn't interfere with clicks */
+.screenshot-protection {
+  pointer-events: none;
+}
+
+/* Additional anti-capture for sensitive areas */
+.protected-content {
+  position: relative;
+}
+
+.protected-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Disable selection on scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--secondary));
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary)) hsl(var(--muted));
+}
+
+/* Disable text selection on entire app during exam */
+body.exam-active *:not(input):not(textarea) {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection only on textarea and input during exam */
+body.exam-active input,
+body.exam-active textarea {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Disable copy from textarea but allow typing */
+body.exam-active textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Visual indicator for protected mode */
+.exam-indicator {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  z-index: 99999;
+  pointer-events: none;
+  font-family: monospace;
+}
+
+/* Responsive design for exam */
+@media (max-width: 640px) {
+  .glass-card {
+    backdrop-filter: blur(10px);
+  }
+  
+  button, 
+  [role="button"] {
+    touch-action: manipulation;
+    min-height: 44px;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* Disable browser back/forward swipe gestures */
+html {
+  overscroll-behavior-x: none;
+}
+
+/* Prevent drag and drop of images */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+/* Disable the context menu on long press */
+* {
+  -webkit-touch-callout: none;
+}
+
+/* Additional protection for React root */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Disable text selection on buttons and interactive elements */
+.btn, 
+button,
+[type="button"],
+[type="submit"],
+[type="reset"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Focus ring for accessibility but without text selection */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Disable browser's native screenshot notification */
+@media (max-width: 768px) {
+  body {
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Prevent iframe hijacking */
+iframe {
+  pointer-events: none;
+}
+
+/* Smooth transitions for UI elements */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation for fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Disable browser extensions that might capture screen */
+[data-screen-capture="true"] {
+  display: none !important;
+}
+
+/* ========== MOBILE ANTI-SCREENSHOT ========== */
+
+/* Prevent screen capture on mobile */
+@media (max-width: 768px) {
+  /* Disable screenshot on iOS */
+  body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Additional overlay for screenshot protection */
+  .screenshot-protection {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.03) 0px,
+      rgba(0, 0, 0, 0.03) 2px,
+      transparent 2px,
+      transparent 8px
+    );
+  }
+  
+  /* Prevent long press menu on mobile */
+  * {
+    -webkit-touch-callout: none !important;
+  }
+  
+  /* Disable selection on double tap */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Disable screenshot detection flash */
+@keyframes antiScreenshotFlash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+.screenshot-flash {
+  animation: antiScreenshotFlash 0.2s ease-in-out 2;
+}
+
+/* Fullscreen force on mobile */
+@media (max-width: 768px) {
+  :-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+  }
+  
+  :fullscreen {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Prevent pull to refresh on mobile */
+body {
+  overscroll-behavior: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure content is scrollable */
+#root {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
