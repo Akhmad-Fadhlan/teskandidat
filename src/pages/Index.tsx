@@ -21,7 +21,8 @@ import {
   Mail, 
   Briefcase,
   AlertCircle,
-  ArrowLeft
+  ArrowLeft,
+  ChevronRight
 } from "lucide-react";
 
 const Index = () => {
