@@ -4,6 +4,7 @@ import { useTestStore, pgQuestions, essayQuestions } from "@/store/useTestStore"
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
+import { Label } from "@/components/ui/label";
 import { 
   Wifi, 
   WifiOff, 
